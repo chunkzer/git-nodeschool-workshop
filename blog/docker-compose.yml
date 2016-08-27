@@ -1,0 +1,23 @@
+version: '2'
+services:
+  blog:
+   build: .
+   command: puma
+   depends_on:
+    - db
+   ports:
+     - "2130:2130"
+   links:
+     - db
+   volumes:
+     - .:/pipeline-api
+  db:
+   image: mysql:latest
+   ports:
+     - "2120:2120"
+   environment:
+     MYSQL_DATABASE: blog_db
+     MYSQL_ROOT_PASSWORD: root
+   volumes:
+     - ./docker-entrpoint-initdb.d:/docker-entrypoint-initdb.d
+    #  - /root/volumes/mysql:/var/lib/mysql
